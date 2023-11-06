@@ -1,3 +1,5 @@
 fun main(args: Array<String>) {
-    println("Hello World!")
+    var program = Program()
+    var menu = Menu(program)
+    menu.start()
 }
