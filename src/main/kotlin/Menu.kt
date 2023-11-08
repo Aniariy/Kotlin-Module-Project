@@ -1,22 +1,32 @@
 
 
 import java.util.Scanner
-class Menu< T, K: hasItem<T>> (private var mainItem: K){
+class Menu< T, K: HasItem<T>> (private val mainItem: K){
     private var menuItems: ArrayList<String> = ArrayList()
+    private val mainItemsCol: Int
     init {
-        menuItems.add("Создать ${mainItem.nameItem}")
-        menuItems.add("Удалить ${mainItem.nameItem}")
+        if (mainItem is Note) {
+            menuItems.add("Добавить ${mainItem.nameItem}")
+            mainItemsCol = 2
+        }
+            else {
+            menuItems.add("Создать ${mainItem.nameItem}")
+            menuItems.add("Удалить ${mainItem.nameItem}")
+            mainItemsCol = 3
+        }
+
         menuItems.addAll(mainItem.getItems())
     }
     private fun addItem (){
-        println("Введите имя ${mainItem.nameItem}")
+        if (mainItem is Note) println("Введите ${mainItem.nameItem}")
+            else println("Введите имя ${mainItem.nameItem}")
         val name = Scanner(System.`in`).nextLine()
-        if (name == "") {
+        if (name.isBlank()) {
             println("Некорректное имя")
             return
             }
         mainItem.addItem(name)
-        menuItems.add(name)
+        if (!(mainItem is Note)) menuItems.add(name)
     }
     private fun delItem (){
         println("Введите номер пункта где находится удаляемая(ый) ${mainItem.nameItem}")
@@ -26,12 +36,12 @@ class Menu< T, K: hasItem<T>> (private var mainItem: K){
             return
         }
         val index = scanner.nextInt()
-        if ((index < 3) || (index > menuItems.size)) {
+        if ((index < mainItemsCol) || (index > menuItems.size)) {
                 println("Некорректное значение")
                 return
             }
-        mainItem.delItem(index-3)
-        menuItems.removeAt(index)
+        mainItem.delItem(index-mainItemsCol)
+        menuItems.removeAt(index-1)
     }
 
     private fun selectItem(index: Int): Boolean{
@@ -44,11 +54,11 @@ class Menu< T, K: hasItem<T>> (private var mainItem: K){
            addItem()
            return true
        }
-       if (index == 2) {
+       if ((index == 2)&&(!(mainItem is Note))) {
            delItem()
            return true
        }
-       mainItem.selectItem(index-3)
+       mainItem.selectItem(index-mainItemsCol)
        return true
     }
 

@@ -1,15 +1,15 @@
-class Program : hasItem<Archive>{
+class Program : HasItem<Archive>{
     var archives: ArrayList<Archive> = ArrayList()
     override var nameItem: String = "архив"
 
     override fun getItems(): ArrayList<String> {
-        var notesName: ArrayList<String> = ArrayList()
+        val notesName: ArrayList<String> = ArrayList()
         for (note in archives) notesName.add(note.name)
         return notesName
     }
 
     override fun selectItem(index: Int) {
-      var menu = Menu(archives[index])
+      val menu = Menu(archives[index])
       menu.start()
     }
 

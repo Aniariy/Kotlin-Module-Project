@@ -1,9 +1,9 @@
 import java.util.Scanner
 
-class Note (var name: String, var text: String): hasItem<String>{
+class Note (val name: String, var text: String): HasItem<String>{
     override var nameItem: String = "текст"
     override fun getItems(): ArrayList<String> {
-        var array: ArrayList<String> = ArrayList()
+        val array: ArrayList<String> = ArrayList()
         array.add("Вывести текст заметки")
         return array
     }
@@ -14,7 +14,7 @@ class Note (var name: String, var text: String): hasItem<String>{
     }
 
     override fun addItem(t: String) {
-        text = t
+        text += t
     }
 
     override fun delItem(index: Int) {
